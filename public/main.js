@@ -92,3 +92,25 @@ getJSON.onclick = () => {
   };
   request.send();
 };
+
+//加载分页
+//必须在外面，如果n在点击之后会一直等于n+1
+let n = 1;
+getPage.onclick = () => {
+  const request = new XMLHttpRequest();
+  request.open("GET", `/page${n + 1}.json`);
+  request.onreadystatechange = () => {
+    //监听请求的变化事件
+    if (request.status === 200 && request.readyState === 4) {
+      const page2 = request.response;
+      const array = JSON.parse(page2);
+      array.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item.id;
+        xxx.appendChild(li);
+      });
+      n += 1;
+    }
+  };
+  request.send();
+};
